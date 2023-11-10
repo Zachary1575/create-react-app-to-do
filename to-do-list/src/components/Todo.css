@@ -9,7 +9,9 @@
 .container{
     width: 100%;
     min-height: 100vh;
-    background: orange;
+    background-image: url("https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?cs=srgb&dl=pexels-afta-putta-gunawan-683039.jpg&fm=jpg");
+    background-position: -100px -300px;
+    background-size: 1800px 1080px;
     padding: 10px;
 }
 

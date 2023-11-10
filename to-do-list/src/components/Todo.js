@@ -1,8 +1,20 @@
+import axios from 'axios';
+import todoImage from "../image/todo.png"
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import './Todo.css';
-import todoImage from "../image/todo.png"
+
+// Some Axios API stuff, screw modularity
+async function postData(url = '', data = {}) {
+  try {
+    const response = await axios.post(url, data);
+    console.log('Data posted successfully:', response.data);
+  } catch (error) {
+    console.log('An error occurred:', error);
+  }
+}
 
 const TodoList = () => {
   // State variables
@@ -12,17 +24,15 @@ const TodoList = () => {
   const [isLoading, setIsLoading] = useState(true); // Indicates whether the data is being loaded
   const [editTaskId, setEditTaskId] = useState(null); // Holds the ID of the task being edited
 
-  // Fetch initial data
   useEffect(() => {
     fetchTodos();
   }, []);
 
-  // Fetch todos from an API
   const fetchTodos = async () => {
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=4');
-      const todos = await response.json();
-      setTasks(todos);
+      // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=4');
+      // const todos = await response.json();
+      // setTasks(todos);
       setIsLoading(false);
     } catch (error) {
       console.log('Error fetching todos:', error);
@@ -30,12 +40,10 @@ const TodoList = () => {
     }
   };
 
-  // Handle input change
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  // Add a new task
   const handleAddTask = async () => {
     if (inputValue.trim() === '') {
       return;
@@ -62,6 +70,12 @@ const TodoList = () => {
       console.log('Error adding task:', error);
       toast.error('Error adding task');
     }
+
+      // We pass our crap to our data endpoint
+      // postData(
+      //   'http://localhost:3000/stupid-endpoint-one', 
+      //   {text: `${inputValue}`}
+      // );
   };
 
   // Handle checkbox change for a task
@@ -160,7 +174,7 @@ const TodoList = () => {
       <ToastContainer />
       <div className="todo-app">
         <h2>
-          <img src={todoImage} alt="todo-image" /> Todo List
+          <img src={todoImage} alt="todo-image" /> A To-Do List
         </h2>
         <div className="row">
           <i className="fas fa-list-check"></i>
@@ -201,12 +215,12 @@ const TodoList = () => {
               />
               <label htmlFor={`task-${task.id}`}>{task.title}</label>
               <div>
-                <img
+                {/* <img
                   src="https://cdn-icons-png.flaticon.com/128/1159/1159633.png"
                   className="edit"
                   data-id={task.id}
                   onClick={() => handleEditTask(task.id)}
-                />
+                /> */}
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/3096/3096673.png"
                   className="delete"
