@@ -55,6 +55,37 @@ app.post('/stupid-endpoint-one', cors(), (req, res) => {
     });
 });
 
+app.get('/weather-api', cors(), (req, res) => {
+  const apiKey = 'pItpp0CXe44WkYWVXC0Uy3lWNXgKTUPx'; // Replace with your API key
+  const city = '02108'; // Boston
+  const url = `http://dataservice.accuweather.com/currentconditions/v1/${city}?apikey=${apiKey}`;
+  
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // This contains the weather information
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+app.get('/money-api', cors(), (req, res) => {
+  const url = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange'; // Rates of Exchange endpoint
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data); // Process the data
+    })
+    .catch(error => {
+      console.error('Fetch Error:', error);
+    });
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

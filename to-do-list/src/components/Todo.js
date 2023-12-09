@@ -16,6 +16,24 @@ async function postData(url = '', data = {}) {
   }
 }
 
+async function weatherData(url = '', data = {}) {
+  try {
+    const response = await axios.get(url, data);
+    console.log('Data posted successfully:', response.data);
+  } catch (error) {
+    console.log('An error occurred:', error);
+  }
+}
+
+async function moneyData(url = '', data = {}) {
+  try {
+    const response = await axios.get(url, data);
+    console.log('Data posted successfully:', response.data);
+  } catch (error) {
+    console.log('An error occurred:', error);
+  }
+}
+
 const TodoList = () => {
   // State variables
   const [tasks, setTasks] = useState([]); // Holds the list of tasks
@@ -76,6 +94,17 @@ const TodoList = () => {
         'http://localhost:4000/stupid-endpoint-one', 
         {text: `${inputValue}`}
       );
+      
+
+      // weatherData(
+      //   'http://localhost:4000/weather-api', 
+      //   {text: `${inputValue}`}
+      // );
+
+      // moneyData(
+      //   'http://localhost:4000/money-api', 
+      //   {text: `${inputValue}`}
+      // );
   };
 
   // Handle checkbox change for a task
