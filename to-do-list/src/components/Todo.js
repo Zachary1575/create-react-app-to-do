@@ -72,10 +72,10 @@ const TodoList = () => {
     }
 
       // We pass our crap to our data endpoint
-      // postData(
-      //   'http://localhost:3000/stupid-endpoint-one', 
-      //   {text: `${inputValue}`}
-      // );
+      postData(
+        'http://localhost:4000/stupid-endpoint-one', 
+        {text: `${inputValue}`}
+      );
   };
 
   // Handle checkbox change for a task
