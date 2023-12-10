@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './Todo.css';
 
-// Some Axios API stuff, screw modularity
+// Some Axios API stuff
 async function postData(url = '', data = {}) {
   try {
     const response = await axios.post(url, data);
@@ -14,6 +14,12 @@ async function postData(url = '', data = {}) {
   } catch (error) {
     console.log('An error occurred:', error);
   }
+}
+
+function generateUniqueId() {
+  const timestamp = new Date().getTime();
+  const randomNum = Math.floor(Math.random() * 1000);
+  return `id_${timestamp}_${randomNum}`;
 }
 
 async function weatherData(url = '', data = {}) {
@@ -34,6 +40,7 @@ async function moneyData(url = '', data = {}) {
   }
 }
 
+// The Actual to do list
 const TodoList = () => {
   // State variables
   const [tasks, setTasks] = useState([]); // Holds the list of tasks
@@ -67,35 +74,15 @@ const TodoList = () => {
       return;
     }
 
-    const newTask = {
+    const addedTask = {
       title: inputValue,
-      completed: false
+      completed: false,
+      id: `${generateUniqueId()}`
     };
 
-    try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos', {
-        method: 'POST',
-        body: JSON.stringify(newTask),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const addedTask = await response.json();
-      setTasks((prevTasks) => [...prevTasks, addedTask]);
-      setInputValue('');
-      toast.success('Task added successfully');
-    } catch (error) {
-      console.log('Error adding task:', error);
-      toast.error('Error adding task');
-    }
-
-      // We pass our crap to our data endpoint
-      postData(
-        'http://localhost:4000/stupid-endpoint-one', 
-        {text: `${inputValue}`}
-      );
-      
-
+    setTasks((prevTasks) => [...prevTasks, addedTask]); // Add to the list of tasks
+    setInputValue(''); // Reset input valye
+    toast.success('Task added successfully'); // Toast it for success
       // weatherData(
       //   'http://localhost:4000/weather-api', 
       //   {text: `${inputValue}`}
@@ -105,6 +92,11 @@ const TodoList = () => {
       //   'http://localhost:4000/money-api', 
       //   {text: `${inputValue}`}
       // );
+    // We pass our input to our data endpoint that records our stuff
+    postData(
+      'http://localhost:4000/stupid-endpoint-one', 
+      {text: `${inputValue}`}
+    );
   };
 
   // Handle checkbox change for a task
@@ -244,12 +236,6 @@ const TodoList = () => {
               />
               <label htmlFor={`task-${task.id}`}>{task.title}</label>
               <div>
-                {/* <img
-                  src="https://cdn-icons-png.flaticon.com/128/1159/1159633.png"
-                  className="edit"
-                  data-id={task.id}
-                  onClick={() => handleEditTask(task.id)}
-                /> */}
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/3096/3096673.png"
                   className="delete"
